@@ -1,0 +1,39 @@
+{
+  // --- Formatting ---
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Run ESLint fixes & organize imports automatically
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always"
+  },
+
+  // --- ESLint ---
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // --- Prettier ---
+  "prettier.requireConfig": true,
+  "prettier.documentSelectors": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.md"
+  ],
+
+  // --- Editor UX / performance tweaks ---
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "boundary",
+  "files.autoSave": "onWindowChange",
+  "explorer.compactFolders": false,
+  "terminal.integrated.fontSize": 13
+}
