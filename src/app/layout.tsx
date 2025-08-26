@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { League_Spartan } from "next/font/google";
-import PageTransition from "../component/page-transition";
+import PageTransition from "../components/page-transition";
 import "./styles.css";
 
 const leagueSpartan = League_Spartan({

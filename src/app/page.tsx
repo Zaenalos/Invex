@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTransition } from "../component/page-transition";
+import { useTransition } from "../components/page-transition";
 
 export default function EntryPoint() {
   const [isNavigating, setIsNavigating] = useState(false);

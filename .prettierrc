@@ -12,6 +12,7 @@
   "arrowParens": "always",
   "quoteProps": "as-needed",
   "proseWrap": "preserve",
+  "endOfLine": "auto",
   "htmlWhitespaceSensitivity": "css",
   "embeddedLanguageFormatting": "auto",
 
