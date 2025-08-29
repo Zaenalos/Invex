@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Button from "../../components/ui/Button";
-import Modal from "../../components/ui/Modal";
+import Button from "../../../components/ui/Button";
+import Modal from "../../../components/ui/Modal";
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/Table";
+} from "../../../components/ui/Table";
 
 interface InventoryItem {
   id: string;

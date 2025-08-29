@@ -7,11 +7,10 @@ export default function EntryPoint() {
   const [isNavigating, setIsNavigating] = useState(false);
   const { navigate, isTransitioning } = useTransition();
 
-  const handleLoginClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleLoginClick = () => {
     if (isTransitioning) return;
     setIsNavigating(true);
-    navigate("/login", { x: e.clientX, y: e.clientY });
+    navigate("/login");
   };
 
   return (
