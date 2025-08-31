@@ -1,4 +1,9 @@
 {
+  // --- Added this to remove CSS warnings ---
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
   // --- Formatting ---
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
