@@ -1,5 +1,11 @@
 "use client";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useTransition } from "../../../components/page-transition";
 
@@ -79,167 +85,77 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-black via-gray-900 to-black px-4">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 h-80 w-80 bg-cyan-500/10 blur-3xl" />
-        <div className="absolute right-0 bottom-0 h-[28rem] w-[28rem] bg-sky-600/10 blur-3xl" />
-      </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-md">
-        <div className="rounded-xl bg-gradient-to-b from-cyan-500/25 via-sky-600/15 to-transparent p-[1px]">
-          <div className="rounded-xl border border-gray-800/70 bg-gray-900/75 px-8 pt-8 pb-6 shadow-xl backdrop-blur-xl">
-            <div className="mb-7 text-center">
-              <h1 className="bg-gradient-to-r from-cyan-400 via-sky-400 to-cyan-300 bg-clip-text text-3xl font-bold tracking-tight text-transparent">
-                Login
-              </h1>
-              <p className="mt-2 text-sm text-gray-400">Access and manage your inventory</p>
-            </div>
-
+    <div className="bg-background flex min-h-screen items-center justify-center px-4">
+      <div className="absolute inset-0 -z-10 [background:radial-gradient(circle_at_50%_20%,hsl(var(--primary)_/_0.12),transparent_65%)]" />
+      <div className="w-full max-w-md">
+        <Card className="supports-[backdrop-filter]:bg-background/80 backdrop-blur">
+          <CardHeader className="text-center">
+            <CardTitle className="text-3xl">Login</CardTitle>
+            <CardDescription>Access and manage your inventory</CardDescription>
+          </CardHeader>
+          <CardContent>
             <form action={handleLogin} className="space-y-5" noValidate>
               <div className="space-y-2">
-                <label htmlFor="username" className="block text-sm font-medium text-gray-200">
-                  Username
-                </label>
-                <input
-                  type="text"
+                <Label htmlFor="username">Username</Label>
+                <Input
                   id="username"
                   name="username"
                   autoComplete="username"
                   required
                   disabled={isLoading}
                   placeholder="Enter username"
-                  className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-4 py-3 text-sm text-white placeholder-gray-500 shadow-sm transition-colors duration-150 hover:border-gray-500 focus:border-cyan-400 focus:bg-gray-800 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
-
               <div className="space-y-2">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-200">
-                  Password
-                </label>
-                <input
-                  type="password"
+                <Label htmlFor="password">Password</Label>
+                <Input
                   id="password"
                   name="password"
+                  type="password"
                   autoComplete="current-password"
                   required
                   disabled={isLoading}
                   placeholder="Enter password"
-                  className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-4 py-3 text-sm text-white placeholder-gray-500 shadow-sm transition-colors duration-150 hover:border-gray-500 focus:border-cyan-400 focus:bg-gray-800 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
-
-              {/* Error Message */}
               {error && (
-                <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-400">
-                  {error}
-                </div>
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
-
-              {/* Remember me */}
-              <label className="group inline-flex cursor-pointer items-center gap-3 select-none">
-                <input
-                  id="remember"
-                  type="checkbox"
+              <div className="flex items-center gap-3">
+                <Checkbox
                   checked={remember}
                   onChange={() => setRemember((r) => !r)}
+                  aria-label="Remember me for 30 days"
                   disabled={isLoading}
-                  className="sr-only"
-                  aria-checked={remember}
                 />
-                <span
-                  className={[
-                    "flex h-5 w-5 items-center justify-center rounded-md shadow-sm transition-all duration-200 ease-out",
-                    "border bg-gray-800/70",
-                    remember
-                      ? "border-cyan-400 bg-cyan-500/10"
-                      : "border-gray-600/70 group-hover:border-gray-500",
-                    isLoading ? "opacity-50" : "",
-                  ].join(" ")}
-                  aria-hidden
-                >
-                  <svg
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    strokeWidth={2.4}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-3.5 w-3.5 translate-y-[1px] text-cyan-400"
-                  >
-                    <path
-                      d="M4 11.2 7.2 14.4 16 5.6"
-                      stroke="currentColor"
-                      strokeDasharray={28}
-                      strokeDashoffset={remember ? 0 : 28}
-                      style={{
-                        transition:
-                          "stroke-dashoffset 300ms cubic-bezier(0.16,1,0.3,1), opacity 180ms",
-                        opacity: remember ? 1 : 0,
-                      }}
-                    />
-                  </svg>
-                </span>
-                <span
-                  className={`text-sm leading-snug text-gray-300 transition-colors group-hover:text-gray-200 ${isLoading ? "opacity-50" : ""}`}
-                >
-                  Remember me (30 days)
-                </span>
-              </label>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="inline-flex w-full items-center justify-center rounded-lg bg-cyan-600 px-4 py-3 font-semibold text-white shadow-md shadow-cyan-900/30 transition-all duration-150 hover:bg-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-900 focus:outline-none active:scale-[.985] active:bg-cyan-500/90 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-cyan-600"
-              >
-                {isLoading ? (
-                  <>
-                    <svg
-                      className="mr-2 -ml-1 h-4 w-4 animate-spin"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    Logging in...
-                  </>
-                ) : (
-                  "Login"
-                )}
-              </button>
-
-              {/* Demo Login Button - Remove in production */}
-              <button
+                <span className="text-muted-foreground text-sm">Remember me (30 days)</span>
+              </div>
+              <Button type="submit" className="w-full" isLoading={isLoading}>
+                {isLoading ? "Logging in..." : "Login"}
+              </Button>
+              <Button
                 type="button"
+                variant="outline"
                 onClick={handleDemoLogin}
                 disabled={isLoading}
-                className="inline-flex w-full items-center justify-center rounded-lg border border-gray-600 bg-transparent px-4 py-3 font-semibold text-gray-300 transition-all duration-150 hover:border-gray-500 hover:bg-gray-800/50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900 focus:outline-none active:scale-[.985] disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full"
               >
                 Demo Login (Skip Auth)
-              </button>
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={handleBackHome}
+                disabled={isLoading || isTransitioning}
+                className="text-muted-foreground w-full"
+              >
+                Back to Home
+              </Button>
             </form>
-          </div>
-        </div>
-
-        <div className="mt-5 text-center">
-          <button
-            onClick={handleBackHome}
-            disabled={isLoading}
-            className={`inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-300 ${isLoading || isTransitioning ? "cursor-not-allowed opacity-50" : ""}`}
-          >
-            Back to Home
-          </button>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

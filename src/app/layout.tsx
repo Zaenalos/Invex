@@ -1,3 +1,5 @@
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { Metadata } from "next";
 import { League_Spartan } from "next/font/google";
 import PageTransition from "../components/page-transition";
@@ -16,9 +18,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${leagueSpartan.variable} font-sans antialiased`}>
-        <PageTransition>{children}</PageTransition>
+        <ThemeProvider>
+          {/* Global theme toggle available on all pages */}
+          <div className="fixed top-2.5 right-4 z-50">
+            <ThemeToggle />
+          </div>
+          <PageTransition>{children}</PageTransition>
+        </ThemeProvider>
       </body>
     </html>
   );

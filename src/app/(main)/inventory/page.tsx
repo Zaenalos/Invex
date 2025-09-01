@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import Button from "../../../components/ui/Button";
-import Modal from "../../../components/ui/Modal";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -10,7 +11,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../components/ui/Table";
+} from "@/components/ui/table";
+import { useState } from "react";
 
 interface InventoryItem {
   id: string;
@@ -162,76 +164,53 @@ export default function Inventory() {
       </Table>
 
       {/* Add Item Modal */}
-      <Modal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        title="Add New Inventory Item"
-      >
-        <form className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-200">Product Name</label>
-              <input
-                type="text"
-                className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none"
-                placeholder="Enter product name"
-              />
+      <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Inventory Item</DialogTitle>
+          </DialogHeader>
+          <form className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Product Name</label>
+                <Input placeholder="Enter product name" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">SKU</label>
+                <Input placeholder="Enter SKU" />
+              </div>
             </div>
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-200">SKU</label>
-              <input
-                type="text"
-                className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none"
-                placeholder="Enter SKU"
-              />
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Category</label>
+                <Select defaultValue="Electronics">
+                  <option>Electronics</option>
+                  <option>Parts</option>
+                  <option>Accessories</option>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Quantity</label>
+                <Input type="number" placeholder="0" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Min Stock</label>
+                <Input type="number" placeholder="0" />
+              </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-200">Category</label>
-              <select className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-3 py-2 text-sm text-white focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none">
-                <option>Electronics</option>
-                <option>Parts</option>
-                <option>Accessories</option>
-              </select>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Price</label>
+              <Input type="number" step="0.01" placeholder="0.00" />
             </div>
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-200">Quantity</label>
-              <input
-                type="number"
-                className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none"
-                placeholder="0"
-              />
+            <div className="flex justify-end gap-3 pt-2">
+              <Button variant="secondary" type="button" onClick={() => setIsAddModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Add Item</Button>
             </div>
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-200">Min Stock</label>
-              <input
-                type="number"
-                className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none"
-                placeholder="0"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-200">Price</label>
-            <input
-              type="number"
-              step="0.01"
-              className="w-full rounded-lg border border-gray-700/60 bg-gray-800/70 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 focus:outline-none"
-              placeholder="0.00"
-            />
-          </div>
-
-          <div className="flex justify-end space-x-3 pt-4">
-            <Button variant="secondary" onClick={() => setIsAddModalOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit">Add Item</Button>
-          </div>
-        </form>
-      </Modal>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

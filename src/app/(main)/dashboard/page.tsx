@@ -2,155 +2,145 @@
 
 import React from "react";
 
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import {
+  AlertTriangle,
+  ArrowDownRight,
+  ArrowUpRight,
+  Box,
+  Clock,
+  DollarSign,
+  Package,
+  ShoppingCart,
+} from "lucide-react";
+
 interface StatCard {
   title: string;
   value: string;
   change: string;
   trend: "up" | "down";
-  icon: React.ReactNode;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 const stats: StatCard[] = [
-  {
-    title: "Total Products",
-    value: "1,234",
-    change: "+12%",
-    trend: "up",
-    icon: (
-      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Low Stock Items",
-    value: "23",
-    change: "-5%",
-    trend: "down",
-    icon: (
-      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Total Orders",
-    value: "856",
-    change: "+8%",
-    trend: "up",
-    icon: (
-      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Revenue",
-    value: "$45,280",
-    change: "+15%",
-    trend: "up",
-    icon: (
-      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-        />
-      </svg>
-    ),
-  },
+  { title: "Total Products", value: "1,234", change: "+12%", trend: "up", icon: Package },
+  { title: "Low Stock Items", value: "23", change: "-5%", trend: "down", icon: AlertTriangle },
+  { title: "Total Orders", value: "856", change: "+8%", trend: "up", icon: ShoppingCart },
+  { title: "Revenue", value: "$45,280", change: "+15%", trend: "up", icon: DollarSign },
 ];
 
 export default function Dashboard() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-        <p className="mt-2 text-gray-400">
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground text-sm">
           Welcome back! Here&apos;s what&apos;s happening with your inventory.
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.title}
-            className="rounded-xl border border-gray-800 bg-gray-900/50 p-6 backdrop-blur-xl transition-colors hover:border-gray-700"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-400">{stat.title}</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stat.value}</p>
-              </div>
-              <div className="text-gray-400">{stat.icon}</div>
-            </div>
-            <div className="mt-4 flex items-center">
-              <span
-                className={`text-sm font-medium ${
-                  stat.trend === "up" ? "text-green-400" : "text-red-400"
-                }`}
-              >
-                {stat.change}
-              </span>
-              <span className="ml-2 text-sm text-gray-500">from last month</span>
-            </div>
-          </div>
-        ))}
+      {/* Stats */}
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {stats.map((s) => {
+          const TrendIcon = s.trend === "up" ? ArrowUpRight : ArrowDownRight;
+          return (
+            <Card key={s.title} className="overflow-hidden">
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                <div className="space-y-1">
+                  <CardTitle className="text-sm font-medium">{s.title}</CardTitle>
+                  <CardDescription className="sr-only">{s.title} metric</CardDescription>
+                </div>
+                <s.icon className="text-muted-foreground h-5 w-5" />
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-2xl font-bold tabular-nums">{s.value}</span>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium",
+                      s.trend === "up"
+                        ? "bg-emerald-500/15 text-emerald-500"
+                        : "bg-red-500/15 text-red-500",
+                    )}
+                  >
+                    <TrendIcon className="h-3.5 w-3.5" /> {s.change}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
-      {/* Recent Activity */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border border-gray-800 bg-gray-900/50 p-6 backdrop-blur-xl">
-          <h3 className="mb-4 text-lg font-semibold text-white">Recent Orders</h3>
-          <div className="space-y-3">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-center justify-between py-2">
-                <div>
-                  <p className="text-sm font-medium text-gray-200">Order #{1000 + i}</p>
-                  <p className="text-xs text-gray-400">2 minutes ago</p>
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Recent Orders */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Recent Orders</CardTitle>
+            <CardDescription>Latest processed orders</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {[1012, 1011, 1010, 1009].map((id, idx) => (
+              <div key={id} className="flex items-center justify-between py-1.5">
+                <div className="space-y-1">
+                  <p className="text-sm leading-none font-medium">Order #{id}</p>
+                  <p className="text-muted-foreground flex items-center gap-1 text-xs">
+                    <Clock className="h-3.5 w-3.5" /> {2 + idx} minutes ago
+                  </p>
                 </div>
-                <span className="rounded-full bg-green-500/20 px-2 py-1 text-xs text-green-400">
-                  Completed
-                </span>
+                <Badge variant="success">Completed</Badge>
               </div>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-xl border border-gray-800 bg-gray-900/50 p-6 backdrop-blur-xl">
-          <h3 className="mb-4 text-lg font-semibold text-white">Low Stock Alerts</h3>
-          <div className="space-y-3">
+        {/* Low Stock Alerts */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Low Stock Alerts</CardTitle>
+            <CardDescription>Items nearing depletion</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-center justify-between py-2">
-                <div>
-                  <p className="text-sm font-medium text-gray-200">Product {i}</p>
-                  <p className="text-xs text-gray-400">{5 - i} units remaining</p>
+              <div key={i} className="flex items-center justify-between py-1.5">
+                <div className="space-y-1">
+                  <p className="text-sm leading-none font-medium">Product {i}</p>
+                  <p className="text-muted-foreground text-xs">{5 - i} units remaining</p>
                 </div>
-                <span className="rounded-full bg-red-500/20 px-2 py-1 text-xs text-red-400">
+                <Badge variant="destructive" className="bg-destructive/15 text-destructive">
                   Low Stock
+                </Badge>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Inventory Snapshot */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">Inventory Snapshot</CardTitle>
+          <CardDescription>Quick overview of category distribution</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {["Electronics", "Parts", "Accessories", "Misc"].map((cat) => (
+              <div
+                key={cat}
+                className="bg-card/50 flex items-center gap-3 rounded-md border px-3 py-2 text-sm"
+              >
+                <Box className="text-muted-foreground h-4 w-4" />
+                <span className="font-medium">{cat}</span>
+                <span className="text-muted-foreground ml-auto text-xs">
+                  {Math.floor(Math.random() * 100)} items
                 </span>
               </div>
             ))}
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
